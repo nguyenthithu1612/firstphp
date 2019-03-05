@@ -1,40 +1,16 @@
-<?php
-	if(isset($_POST['login'])){
+
+<?php 
+if(isset($_POST['login'])){
 		$email = trim($_POST['email']);
 		$pass = md5($_POST['pass']);
 		if(isset($_POST['remember'])!=0){
 			setcookie('email', $email, time() + 600);
 		}
-	try{
-
-    $db = "NewDb";
-
-	$conn = new PDO("mysql:host=localhost;dbname=$db", 'root', '');
-     
-    // Thiết lập chế độ exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
- 	$sql = "SELECT * FROM thanhvien WHERE email = ? AND password = ?";
- 	
- 	$query = $conn->prepare($sql);
-    $query->execute(array($email,$pass));
-  	$user = $query->fetch(PDO::FETCH_ASSOC);
-
-	  	if($query->rowCount() >= 1) {
-	  		$_SESSION['username'] = $user['username'];
-	  		$_SESSION['login'] = true;
-	  		header("location: index.php");
-	    } else {
-	        echo "Email/Password is wrong";
-	    }
-
-    }catch(PDOException $e)
-	{
-	    echo $e->getMessage();
+		include('user-class.php');
+		$check = new user();
+		$check-> checkLogin($email,$pass);
 	}
-}
- ?>
-
+?>
 <form method="POST" role="form" id="form-rg">
 	<div>
 		<h3>REGISTER</h3>
