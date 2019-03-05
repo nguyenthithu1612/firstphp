@@ -31,30 +31,11 @@
 
 <?php
 	if(isset($_POST['reg'])){
-		$name = $_POST['name'];
-		$email = $_POST['email'];
-		$pass = md5($_POST['pass']);
-	
-	try {
-
-	$db = 'NewDb';
-    // Kết nối db
-    $conn = new PDO("mysql:host=localhost;dbname=$db", 'root', '');
-     
-    // Thiết lập chế độ exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    $sql = "INSERT INTO `thanhvien`(`username`, `email`, `password`) 
-    						VALUES (?,?,?)";
-    $query = $conn->prepare($sql);
-	$query->execute(array($name, $email, $pass));
-
-	echo "Đăng ký thành công";
-	
-}
-	catch(PDOException $e)
-	{
-	    echo $e->getMessage();
-	}
+		$a = $_POST['name'];
+		$b = $_POST['email'];
+		$c = md5($_POST['pass']);
+	include('user-class.php');
+	$insertMem = new user() ;
+	$insertMem->Insert($a, $b, $c);
 	}
  ?>
